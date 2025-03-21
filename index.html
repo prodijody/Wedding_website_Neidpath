@@ -543,7 +543,7 @@
 								<p>Scottish weather can be unpredictable, even in July. We recommend bringing layers and potentially a light jacket or wrap for the evening, as well as an umbrella just in case.</p>
 								
 								<h3>Things to Remember</h3>
-								<p>Neidpath Castle is a beautiful, historic venue, and we want to help preserve its charm. Please do not bring your own confetti—we'll provide special, castle-friendly confetti for everyone to use and enjoy. Thank you for helping us keep this wonderful place special!</p>
+								<p>Neidpath Castle is a beautiful, historic venue, and we want to help preserve its charm. Please do not bring your own confetti, we will provide our own. Thank you for helping us keep this wonderful place special!</p>
 								
 								<h3>Gifts</h3>
 								<p>Your presence at our wedding is the greatest gift we could ask for. If you would like to give a gift, we would be grateful for a contribution to our honeymoon fund.</p>
@@ -562,15 +562,24 @@
 								<h3>RSVP</h3>
 								<p>Please RSVP by May 15th, 2025 by filling out the form below or by texting us directly.</p>
 								
-								<form method="post" action="#">
+								<!--
+								  To activate this form:
+								  1. Sign up at https://formspree.io/
+								  2. Create a new form
+								  3. Replace 'your-form-id' below with your actual form ID from Formspree
+								-->
+								<form action="https://formspree.io/f/xrbpprlq" method="POST">
 									<div class="fields">
+										<input type="hidden" name="_subject" value="Wedding RSVP from Website" />
+										<input type="hidden" name="_next" value="https://latha-na-bainnse.com/thanks.html" />
+										<input type="text" name="_honey" style="display:none" />
 										<div class="field half">
 											<label for="name">Name</label>
 											<input type="text" name="name" id="name" />
 										</div>
 										<div class="field half">
 											<label for="email">Email</label>
-											<input type="text" name="email" id="email" />
+											<input type="email" name="email" id="email" />
 										</div>
 										<div class="field">
 											<label for="attending">Will you be attending?</label>
@@ -589,7 +598,7 @@
 										</div>
 									</div>
 									<ul class="actions">
-										<li><input type="submit" value="Send RSVP" class="primary" /></li>
+										<li><input type="submit" name="submit" value="Send RSVP" class="primary" /></li>
 										<li><input type="reset" value="Reset" /></li>
 									</ul>
 								</form>
