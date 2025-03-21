@@ -137,6 +137,49 @@
 			.menu-items li {
 				padding: 4px 0;
 			}
+			
+			/* Countdown Timer Styles */
+			.countdown-container {
+				margin-top: 20px;
+				background-color: rgba(0, 0, 0, 0.2);
+				border-radius: 6px;
+				padding: 15px;
+				max-width: 500px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			
+			.countdown-container h3 {
+				color: #ff6382;
+				margin-bottom: 15px;
+				text-align: center;
+				font-size: 1.2em;
+			}
+			
+			.countdown {
+				display: flex;
+				justify-content: space-between;
+				margin: 0 auto;
+			}
+			
+			.countdown-item {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				margin: 0 10px;
+			}
+			
+			.countdown-item span:first-child {
+				font-size: 2em;
+				font-weight: bold;
+				color: white;
+			}
+			
+			.countdown-label {
+				font-size: 0.8em;
+				color: #ff6382;
+				margin-top: 5px;
+			}
 		</style>
 	</head>
 	<body class="is-preload">
@@ -154,6 +197,28 @@
 								<h1>Alex & Jody</h1>
 								<p>We're getting married! Join us on July 9th, 2025<br />
 								at Neidpath Castle for a celebration of love and friendship.</p>
+								
+								<div class="countdown-container">
+									<h3>Countdown to Our Special Day</h3>
+									<div class="countdown">
+										<div class="countdown-item">
+											<span id="days">00</span>
+											<span class="countdown-label">Days</span>
+										</div>
+										<div class="countdown-item">
+											<span id="hours">00</span>
+											<span class="countdown-label">Hours</span>
+										</div>
+										<div class="countdown-item">
+											<span id="minutes">00</span>
+											<span class="countdown-label">Minutes</span>
+										</div>
+										<div class="countdown-item">
+											<span id="seconds">00</span>
+											<span class="countdown-label">Seconds</span>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 						<nav>
@@ -459,6 +524,9 @@
 								<h3>Dress Code</h3>
 								<p>The dress code for our wedding is formal attire. Please be mindful that, weather permitting, parts of the reception will take place on grass and there are hills to explore (if you want to venture down to the water), so consider your footwear accordingly.</p><p>We'll have complimentary slippers available for dancing and exploring the castle grounds later in the evening.</p>
 								
+								<h3>Unplugged Ceremony</h3>
+								<p>Our ceremony has been crafted with love. Please keep your phones away during this special moment and celebrate fully with us. There will be plenty of time for photos afterward!</p>
+								
 								<h3>Transportation</h3>
 								<p>While Neidpath Castle is located in Peebles, it can be a 30-60 minute walk to some of the hotels in town. Please note that most local taxi firms don't typically operate on weekday evenings unless they have advance bookings. We recommend arranging transportation ahead of time if you'll need a ride back to your accommodation.</p>
 								
@@ -473,6 +541,9 @@
 								
 								<h3>Weather</h3>
 								<p>Scottish weather can be unpredictable, even in July. We recommend bringing layers and potentially a light jacket or wrap for the evening, as well as an umbrella just in case.</p>
+								
+								<h3>Things to Remember</h3>
+								<p>Neidpath Castle is a beautiful, historic venue, and we want to help preserve its charm. Please do not bring your own confetti—we'll provide special, castle-friendly confetti for everyone to use and enjoy. Thank you for helping us keep this wonderful place special!</p>
 								
 								<h3>Gifts</h3>
 								<p>Your presence at our wedding is the greatest gift we could ask for. If you would like to give a gift, we would be grateful for a contribution to our honeymoon fund.</p>
@@ -542,6 +613,42 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+			
+			<!-- Countdown Timer Script -->
+			<script>
+				// Set the wedding date - July 9th, 2025 at 2:00 PM
+				const weddingDate = new Date("July 9, 2025 14:00:00").getTime();
+				
+				// Update the countdown every second
+				const countdownTimer = setInterval(function() {
+					// Get today's date and time
+					const now = new Date().getTime();
+					
+					// Find the distance between now and the wedding date
+					const distance = weddingDate - now;
+					
+					// Time calculations for days, hours, minutes and seconds
+					const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+					const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+					const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+					const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+					
+					// Display the result
+					document.getElementById("days").innerHTML = days.toString().padStart(2, '0');
+					document.getElementById("hours").innerHTML = hours.toString().padStart(2, '0');
+					document.getElementById("minutes").innerHTML = minutes.toString().padStart(2, '0');
+					document.getElementById("seconds").innerHTML = seconds.toString().padStart(2, '0');
+					
+					// If the countdown is finished, display a message
+					if (distance < 0) {
+						clearInterval(countdownTimer);
+						document.getElementById("days").innerHTML = "00";
+						document.getElementById("hours").innerHTML = "00";
+						document.getElementById("minutes").innerHTML = "00";
+						document.getElementById("seconds").innerHTML = "00";
+					}
+				}, 1000);
+			</script>
 
 	</body>
 </html>
