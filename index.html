@@ -205,6 +205,26 @@
 				color: #ff6382;
 				margin-top: 5px;
 			}
+			
+			/* Floating Hearts Animation */
+			.floating-heart {
+				position: fixed;
+				z-index: 9999;
+				pointer-events: none;
+				animation: float-heart 4s ease-out forwards;
+				opacity: 1;
+			}
+			
+			@keyframes float-heart {
+				0% {
+					transform: translate(0, 0) rotate(0deg);
+					opacity: 1;
+				}
+				100% {
+					transform: translate(var(--tx), var(--ty)) rotate(var(--rot));
+					opacity: 0;
+				}
+			}
 		</style>
 	</head>
 	<body class="is-preload">
@@ -596,7 +616,7 @@
 								<form action="https://formspree.io/f/xrbpprlq" method="POST">
 									<div class="fields">
 										<input type="hidden" name="_subject" value="Wedding RSVP from Website" />
-										<input type="hidden" name="_next" value="https://latha-na-bainnse.com/thanks.html" />
+										<input type="hidden" name="_next" value="thanks.html" />
 										<input type="text" name="_honey" style="display:none" />
 										<div class="field half">
 											<label for="name">Name</label>
@@ -605,6 +625,7 @@
 										<div class="field half">
 											<label for="email">Email</label>
 											<input type="email" name="email" id="email" />
+											<input type="hidden" name="_replyto" value="" id="email_replyto" />
 										</div>
 										<div class="field">
 											<label for="attending">Will you be attending?</label>
@@ -647,6 +668,65 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+			
+			<!-- Form Handling Script -->
+			<script>
+				// Copy email to _replyto field and handle form submission
+				document.addEventListener('DOMContentLoaded', function() {
+					const emailInput = document.getElementById('email');
+					const replyToInput = document.getElementById('email_replyto');
+					const rsvpForm = document.querySelector('form[action^="https://formspree.io"]');
+					
+					// Copy email to _replyto field
+					if (emailInput && replyToInput) {
+						emailInput.addEventListener('input', function() {
+							replyToInput.value = emailInput.value;
+						});
+						
+						// Set initial value if email field already has a value
+						if (emailInput.value) {
+							replyToInput.value = emailInput.value;
+						}
+					}
+					
+					// Handle form submission
+					if (rsvpForm) {
+						rsvpForm.addEventListener('submit', function(e) {
+							e.preventDefault();
+							
+							// Get form data
+							const formData = new FormData(rsvpForm);
+							
+							// Submit form data to Formspree
+							fetch(rsvpForm.action, {
+								method: 'POST',
+								body: formData,
+								headers: {
+									'Accept': 'application/json'
+								}
+							})
+							.then(response => {
+								if (response.ok) {
+									// Redirect to thanks page
+									window.location.href = 'thanks.html';
+								} else {
+									response.json().then(data => {
+										if (data.error) {
+											alert('Form submission error: ' + data.error);
+										} else {
+											alert('Form submission failed. Please try again.');
+										}
+									});
+								}
+							})
+							.catch(error => {
+								console.error('Error:', error);
+								alert('Form submission error. Please try again.');
+							});
+						});
+					}
+				});
+			</script>
 			
 			<!-- Countdown Timer Script -->
 			<script>
