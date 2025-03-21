@@ -12,6 +12,31 @@
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 		<style>
+			/* Heart Animation */
+			@keyframes float-heart {
+				0% {
+					transform: scale(0);
+					opacity: 1;
+				}
+				25% {
+					opacity: 1;
+					transform: scale(1.2);
+				}
+				100% {
+					transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(1.5);
+					opacity: 0;
+				}
+			}
+			
+			.floating-heart {
+				position: absolute;
+				z-index: 10000;
+				color: #ff6382;
+				font-size: 30px;
+				pointer-events: none;
+				animation: float-heart 4s forwards ease-out;
+			}
+			
 			.timeline {
 				position: relative;
 				max-width: 1200px;
@@ -657,6 +682,76 @@
 						document.getElementById("seconds").innerHTML = "00";
 					}
 				}, 1000);
+			</script>
+			<!-- Heart Animation Script -->
+			<script>
+				// Add event listener to the heart logo as soon as the script runs
+				window.addEventListener('load', function() {
+					console.log('Heart animation script loaded');
+					
+					// Get the heart icon in the header
+					const heartLogo = document.querySelector('#header .logo');
+					console.log('Heart logo found:', heartLogo);
+					
+					// Add click event listener to the heart logo container
+					if (heartLogo) {
+						heartLogo.addEventListener('click', function(event) {
+							console.log('Heart clicked!');
+							createHearts(event);
+						});
+					}
+					
+					// Function to create floating hearts
+					function createHearts(event) {
+						// Number of hearts to create
+						const numHearts = 20;
+						console.log('Creating', numHearts, 'hearts');
+						
+						// Use the actual click coordinates instead of the heart logo position
+						const startX = event.clientX;
+						const startY = event.clientY;
+						console.log('Click position:', startX, startY);
+						
+						// Create multiple hearts
+						for (let i = 0; i < numHearts; i++) {
+							// Create a heart element using HTML content
+							const heart = document.createElement('div');
+							heart.className = 'floating-heart';
+							
+							// Use different colored hearts for variety
+							const heartColors = ['❤️', '💖', '💗', '💓', '💕'];
+							const randomHeart = heartColors[Math.floor(Math.random() * heartColors.length)];
+							heart.innerHTML = randomHeart;
+							
+							// Set random properties for variation
+							const size = Math.random() * 30 + 20; // Random size between 20px and 50px
+							const rotation = Math.random() * 360; // Random rotation between 0 and 360 degrees
+							
+							// Random offsets in all directions
+							const xOffset = Math.random() * 300 - 150; // Random x offset between -150px and 150px
+							const yOffset = Math.random() * 300 - 150; // Random y offset between -150px and 150px (negative = up)
+							
+							// Set custom properties for the animation
+							heart.style.setProperty('--tx', `${xOffset}px`);
+							heart.style.setProperty('--ty', `${yOffset}px`);
+							heart.style.setProperty('--rot', `${rotation}deg`);
+							heart.style.fontSize = `${size}px`;
+							
+							// Position the heart at the starting point
+							heart.style.left = `${startX}px`;
+							heart.style.top = `${startY}px`;
+							
+							// Add the heart to the document
+							document.body.appendChild(heart);
+							console.log('Heart added to document');
+							
+							// Remove the heart after animation completes
+							setTimeout(() => {
+								heart.remove();
+							}, 4000); // Match the animation duration (4s)
+						}
+					}
+				});
 			</script>
 
 	</body>
